@@ -1,0 +1,9 @@
+@mixin centered-repeated-grid($el-width, $gap) {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    $el-width
+  );
+  justify-content: center;
+  gap: $gap;
+}
