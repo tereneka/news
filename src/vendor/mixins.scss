@@ -1,9 +1,5 @@
-@mixin centered-repeated-grid($el-width, $gap) {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    $el-width
-  );
-  justify-content: center;
-  gap: $gap;
+@mixin list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }

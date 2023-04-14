@@ -11,11 +11,13 @@ export default function NewsList({
   data,
 }: Props) {
   return (
-    <section>
+    <section className='news'>
       {data && (
-        <ul>
+        <ul className='news__list'>
           {data.articles.map((article) => (
-            <li key={nanoid()}>
+            <li
+              className='news__list-item'
+              key={nanoid()}>
               <NewsCard data={article} />
             </li>
           ))}
