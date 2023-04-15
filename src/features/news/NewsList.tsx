@@ -1,5 +1,5 @@
 import React from 'react';
-import { NewsData } from '../../types';
+import { Article, NewsData } from '../../types';
 import NewsCard from './NewsCard';
 import { nanoid } from 'nanoid';
 

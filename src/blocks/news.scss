@@ -1,9 +1,5 @@
 .news {
-  background: linear-gradient(
-    180deg,
-    rgba(185, 251, 255, 0.2) 0%,
-    rgba(227, 220, 255, 0.2) 100%
-  );
+  background: $color-gradient;
   border-radius: $border-radius-l;
   padding: 20px;
 
@@ -22,14 +18,8 @@
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 10px;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0) 100%
-      ),
-      rgba(255, 255, 255, 0.3);
-    box-shadow: 10px 10px 40px
-      rgba(156, 185, 222, 0.4);
+    background: $white-gradient;
+    box-shadow: $color-shadow;
     border-radius: $border-radius-l;
     padding: 10px;
   }
@@ -47,8 +37,7 @@
       $primary-dark-color 0%,
       $primary-color 100%
     );
-    box-shadow: 10px 10px 40px
-      rgba(156, 185, 222, 0.4);
+    box-shadow: $color-shadow;
     color: $light-color;
     font: {
       style: normal;

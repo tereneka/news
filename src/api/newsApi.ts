@@ -27,16 +27,52 @@ export const newsApi = createApi({
       NewsData,
       {
         category: NewsCategoty;
+        page?: number;
         country?: string;
       }
     >({
-      query: ({ category, country }) =>
+      query: ({ category, page, country }) =>
         `top-headlines?apiKey=${API_KEY}&category=${category}${
           country
             ? '&country=' + country
             : '&country=us'
-        }`,
+        }&pageSize=10&page=${page || 1}`,
+      // Only have one cache entry because the arg always maps to one string
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newData) => {
+        currentCache.articles.push(
+          ...newData.articles
+        );
+        currentCache.status = newData.status;
+        currentCache.totalResults =
+          newData.totalResults;
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return (
+          currentArg?.page !== previousArg?.page
+        );
+      },
     }),
+
+    // getNews: builder.query<
+    //   NewsData,
+    //   {
+    //     category: NewsCategoty;
+    //     page?: number;
+    //     country?: string;
+    //   }
+    // >({
+    //   query: ({ category, page, country }) =>
+    //     `top-headlines?apiKey=${API_KEY}&category=${category}${
+    //       country
+    //         ? '&country=' + country
+    //         : '&country=us'
+    //     }&pageSize=10&page=${page || 1}`,
+    // }),
   }),
 });
 
