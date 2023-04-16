@@ -14,7 +14,7 @@ export default function NewsList({
     <section className='news'>
       {data && (
         <ul className='news__list'>
-          {data.articles.map((article) => (
+          {data.results.map((article) => (
             <li
               className='news__list-item'
               key={nanoid()}>

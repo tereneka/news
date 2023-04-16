@@ -1,7 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useState } from 'react';
 import Logo from './components/Logo';
 import NewsList from './features/news/NewsList';
 import { useGetNewsQuery } from './api/newsApi';
@@ -19,8 +16,9 @@ function App() {
 
   const pathname = location.pathname.slice(1);
 
-  const [page, setPage] = useState(1);
-  const [nextPage, setNextPage] = useState(1);
+  const [page, setPage] = useState<
+    string | undefined
+  >(undefined);
 
   const newsCategory =
     pathname === 'business' ||
@@ -38,16 +36,27 @@ function App() {
     isSuccess,
     isError,
     error,
-  } = useGetNewsQuery({
-    category: newsCategory,
-    page,
-  });
+  } = useGetNewsQuery({ page });
+
+  //   data: news,
+  //   isLoading,
+  //   isSuccess,
+  //   isError,
+  //   error,
+  // } = useGetNewsQuery({
+  //   category: newsCategory,
+  //   page,
+  // });
 
   const shouldNewsLoad = !!(
     !isLoading &&
-    news &&
-    page < Math.ceil(news?.totalResults / 10)
+    news?.nextPage &&
+    page !== news.nextPage
   );
+  //   !isLoading &&
+  //   news &&
+  //   page < Math.ceil(news?.totalResults / 10)
+  // );
 
   const routes = [
     {
@@ -80,18 +89,12 @@ function App() {
     },
   ];
 
-  useEffect(() => {
-    if (nextPage === page + 1) {
-      setPage(nextPage);
-    }
-  }, [nextPage]);
-
   window.addEventListener(
     'scroll',
     throttle(
       () =>
         checkPosition(
-          () => setNextPage(page + 1),
+          () => setPage(news?.nextPage),
           shouldNewsLoad
         ),
       250
@@ -103,7 +106,7 @@ function App() {
     throttle(
       () =>
         checkPosition(
-          () => setNextPage(page + 1),
+          () => setPage(news?.nextPage),
           shouldNewsLoad
         ),
       250
