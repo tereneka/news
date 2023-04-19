@@ -18,4 +18,13 @@ interface NewsData {
   articles: Article[];
 }
 
-export type { Article, NewsData };
+type NewsCategoty =
+  | 'business'
+  | 'entertainment'
+  | 'general'
+  | 'health'
+  | 'science'
+  | 'sports'
+  | 'technology';
+
+export type { Article, NewsData, NewsCategoty };

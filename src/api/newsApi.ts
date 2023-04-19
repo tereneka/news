@@ -2,16 +2,7 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
-import { NewsData } from '../types';
-
-type NewsCategoty =
-  | 'business'
-  | 'entertainment'
-  | 'general'
-  | 'health'
-  | 'science'
-  | 'sports'
-  | 'technology';
+import { NewsCategoty, NewsData } from '../types';
 
 const BASE_URL = 'https://newsapi.org/v2/';
 const API_KEY =
@@ -26,13 +17,21 @@ export const newsApi = createApi({
     getNews: builder.query<
       NewsData,
       {
-        category: NewsCategoty;
+        endPoint: string;
+        category?: string;
         page?: number;
         country?: string;
       }
     >({
-      query: ({ category, page, country }) =>
-        `top-headlines?apiKey=${API_KEY}&category=${category}${
+      query: ({
+        endPoint,
+        category,
+        page,
+        country,
+      }) =>
+        `${endPoint}?apiKey=${API_KEY}${
+          category ? '&category=' + category : ''
+        }${
           country
             ? '&country=' + country
             : '&country=us'
@@ -42,19 +41,22 @@ export const newsApi = createApi({
         return endpointName;
       },
       // Always merge incoming data to the cache entry
-      merge: (currentCache, newData) => {
-        currentCache.articles.push(
-          ...newData.articles
-        );
+      merge: (currentCache, newData, args) => {
+        if (args.arg.page !== 1) {
+          currentCache.articles.push(
+            ...newData.articles
+          );
+        } else {
+          currentCache.articles =
+            newData.articles;
+        }
         currentCache.status = newData.status;
         currentCache.totalResults =
           newData.totalResults;
       },
       // Refetch when the page arg changes
       forceRefetch({ currentArg, previousArg }) {
-        return (
-          currentArg?.page !== previousArg?.page
-        );
+        return currentArg !== previousArg;
       },
     }),
 

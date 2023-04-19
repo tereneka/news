@@ -13,24 +13,25 @@ import {
   throttle,
   checkPosition,
 } from './utils.ts/scroll';
+import { NewsCategoty } from './types';
 
 function App() {
   const location = useLocation();
 
   const pathname = location.pathname.slice(1);
 
-  const [page, setPage] = useState(1);
-  const [nextPage, setNextPage] = useState(1);
+  const [reqParams, setReqParams] = useState<{
+    endPoint: string;
+    category?: string;
+    page: number;
+    country?: string;
+  }>({
+    endPoint: 'top-headlines',
+    page: 1,
+    category: 'general',
+  });
 
-  const newsCategory =
-    pathname === 'business' ||
-    pathname === 'sports' ||
-    pathname === 'technology' ||
-    pathname === 'health' ||
-    pathname === 'science' ||
-    pathname === 'entertainment'
-      ? pathname
-      : 'general';
+  const [nextPage, setNextPage] = useState(1);
 
   const {
     data: news,
@@ -38,31 +39,15 @@ function App() {
     isSuccess,
     isError,
     error,
-  } = useGetNewsQuery({
-    category: newsCategory,
-    page,
-  });
+  } = useGetNewsQuery(reqParams);
   console.log(news);
-
-  //   data: news,
-  //   isLoading,
-  //   isSuccess,
-  //   isError,
-  //   error,
-  // } = useGetNewsQuery({
-  //   category: newsCategory,
-  //   page,
-  // });
 
   const shouldNewsLoad = !!(
     !isLoading &&
     news &&
-    page < Math.ceil(news?.totalResults / 10)
+    reqParams.page <
+      Math.ceil(news?.totalResults / 10)
   );
-  //   !isLoading &&
-  //   news &&
-  //   page < Math.ceil(news?.totalResults / 10)
-  // );
 
   const routes = [
     {
@@ -96,17 +81,29 @@ function App() {
   ];
 
   useEffect(() => {
-    if (nextPage === page + 1) {
-      setPage(nextPage);
+    if (nextPage === reqParams.page + 1) {
+      setReqParams({
+        ...reqParams,
+        page: nextPage,
+      });
     }
   }, [nextPage]);
+
+  useEffect(() => {
+    setReqParams({
+      ...reqParams,
+      category: pathname || 'general',
+      page: 1,
+    });
+    setNextPage(1);
+  }, [location]);
 
   window.addEventListener(
     'scroll',
     throttle(
       () =>
         checkPosition(
-          () => setNextPage(page + 1),
+          () => setNextPage(reqParams.page + 1),
           shouldNewsLoad
         ),
       250
@@ -118,7 +115,7 @@ function App() {
     throttle(
       () =>
         checkPosition(
-          () => setNextPage(page + 1),
+          () => setNextPage(reqParams.page + 1),
           shouldNewsLoad
         ),
       250
