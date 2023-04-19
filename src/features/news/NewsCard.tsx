@@ -10,12 +10,10 @@ export default function NewsCard({
 }: Props) {
   return (
     <article className='news__article'>
-      <cite className='news__source'>
-        {data.source_id}
-      </cite>
       <h3 className='news__title'>
         {data.title}
       </h3>
+
       {data.image_url && (
         <img
           className='news__img'
@@ -37,6 +35,18 @@ export default function NewsCard({
                 : ''
             }`}
       </p>
+      <cite className='news__source'>
+        <img
+          className='news__source-img'
+          src={
+            `${data.link?.slice(0, 8)}${
+              data.link?.slice(8).split('/')[0]
+            }/favicon.ico` || ''
+          }
+          alt=''
+        />
+        {data.source_id}
+      </cite>
     </article>
   );
 }

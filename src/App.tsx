@@ -38,25 +38,13 @@ function App() {
     error,
   } = useGetNewsQuery({ page });
 
-  //   data: news,
-  //   isLoading,
-  //   isSuccess,
-  //   isError,
-  //   error,
-  // } = useGetNewsQuery({
-  //   category: newsCategory,
-  //   page,
-  // });
-
   const shouldNewsLoad = !!(
     !isLoading &&
     news?.nextPage &&
     page !== news.nextPage
   );
-  //   !isLoading &&
-  //   news &&
-  //   page < Math.ceil(news?.totalResults / 10)
-  // );
+
+  console.log(news);
 
   const routes = [
     {
