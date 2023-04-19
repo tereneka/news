@@ -1,5 +1,7 @@
 import React, {
+  RefObject,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import Logo from './components/Logo';
@@ -14,24 +16,31 @@ import {
   checkPosition,
 } from './utils.ts/scroll';
 import { NewsCategoty } from './types';
+import { keyboard } from '@testing-library/user-event/dist/keyboard';
 
 function App() {
   const location = useLocation();
 
   const pathname = location.pathname.slice(1);
 
+  const defaultReqParams = {
+    endPoint: 'top-headlines',
+    page: 1,
+    category: pathname || 'general',
+    country: 'us',
+  };
+
   const [reqParams, setReqParams] = useState<{
     endPoint: string;
     category?: string;
     page: number;
     country?: string;
-  }>({
-    endPoint: 'top-headlines',
-    page: 1,
-    category: 'general',
-  });
+    q?: string;
+  }>(defaultReqParams);
 
   const [nextPage, setNextPage] = useState(1);
+
+  const [keywords, setKeywords] = useState('');
 
   const {
     data: news,
@@ -40,7 +49,7 @@ function App() {
     isError,
     error,
   } = useGetNewsQuery(reqParams);
-  console.log(news);
+  console.log(news, keywords);
 
   const shouldNewsLoad = !!(
     !isLoading &&
@@ -80,6 +89,18 @@ function App() {
     },
   ];
 
+  function searchKeywords() {
+    if (keywords) {
+      setReqParams({
+        endPoint: 'everything',
+        page: 1,
+        q: keywords.trim().replaceAll(' ', '+'),
+        category: undefined,
+        country: undefined,
+      });
+    }
+  }
+
   useEffect(() => {
     if (nextPage === reqParams.page + 1) {
       setReqParams({
@@ -97,6 +118,12 @@ function App() {
     });
     setNextPage(1);
   }, [location]);
+
+  useEffect(() => {
+    if (!keywords) {
+      setReqParams(defaultReqParams);
+    }
+  }, [keywords]);
 
   window.addEventListener(
     'scroll',
@@ -124,8 +151,31 @@ function App() {
 
   return (
     <>
-      <header>
-        <Logo />
+      <header className='header'>
+        <div className='header__logo-search-container'>
+          <Logo />
+
+          <div className='search'>
+            <input
+              className='search__input'
+              value={keywords}
+              onChange={(e) =>
+                setKeywords(e.target.value)
+              }
+              type='text'
+            />
+
+            <button
+              className='btn btn_icon_x-circle btn_size_s search__x-btn'
+              onClick={() => setKeywords('')}
+            />
+
+            <button
+              className='btn btn_icon_search btn_size_m search__search-btn'
+              onClick={searchKeywords}
+            />
+          </div>
+        </div>
 
         <nav className='menu'>
           {routes.map((route) => (

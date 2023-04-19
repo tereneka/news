@@ -1,0 +1,29 @@
+.btn {
+  border: none;
+  cursor: pointer;
+
+  &_size {
+    &_s {
+      width: 16px;
+      height: 16px;
+    }
+
+    &_m {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &_icon {
+    &_x-circle {
+      background-image: url(../images/x-circle-fill.svg);
+      background-size: cover;
+      background-color: transparent;
+    }
+
+    &_search {
+      background-image: url(../images/search.svg);
+      background-color: transparent;
+    }
+  }
+}

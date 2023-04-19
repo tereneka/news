@@ -21,6 +21,7 @@ export const newsApi = createApi({
         category?: string;
         page?: number;
         country?: string;
+        q?: string;
       }
     >({
       query: ({
@@ -28,13 +29,12 @@ export const newsApi = createApi({
         category,
         page,
         country,
+        q,
       }) =>
         `${endPoint}?apiKey=${API_KEY}${
           category ? '&category=' + category : ''
-        }${
-          country
-            ? '&country=' + country
-            : '&country=us'
+        }${country ? '&country=' + country : ''}${
+          q ? '&q=' + q : ''
         }&pageSize=10&page=${page || 1}`,
       // Only have one cache entry because the arg always maps to one string
       serializeQueryArgs: ({ endpointName }) => {
