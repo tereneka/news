@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Article } from '../../types';
 
 interface Props {
@@ -8,71 +8,60 @@ interface Props {
 export default function NewsCard({
   data,
 }: Props) {
+  const [isImg, setIsImg] = useState(
+    !!data.urlToImage
+  );
+  const [isSourceImg, setIsSourceImg] =
+    useState(true);
+
   return (
     <article className='news__article'>
       <h3 className='news__title'>
         {data.title}
       </h3>
 
-      {data.image_url && (
-        <img
-          className='news__img'
-          src={data.image_url}
-          alt='img'
-        />
-      )}
+      <div className='news__contant'>
+        {data.urlToImage && isImg ? (
+          <img
+            className='news__img'
+            src={data.urlToImage}
+            onError={() => setIsImg(false)}
+            alt=''
+          />
+        ) : (
+          <p className='news__description'>
+            {data.description}
+          </p>
+        )}
+      </div>
 
-      <p className='news__description'>
-        {data.content
-          ? `${data.content.slice(0, 400)}${
-              data.content.length > 400
-                ? '...'
-                : ''
-            }`
-          : `${
-              data.description
-                ? data.description
-                : ''
-            }`}
-      </p>
       <cite className='news__source'>
-        <img
-          className='news__source-img'
-          src={
-            `${data.link?.slice(0, 8)}${
-              data.link?.slice(8).split('/')[0]
-            }/favicon.ico` || ''
-          }
-          alt=''
-        />
-        {data.source_id}
+        {isSourceImg && (
+          <img
+            className='news__source-img'
+            src={
+              `${data.url?.slice(0, 8)}${
+                data.url?.slice(8).split('/')[0]
+              }/favicon.ico` || ''
+            }
+            onError={() => setIsSourceImg(false)}
+            alt=''
+          />
+        )}
+
+        <p className='news__source-text'>
+          {data.source.name}
+        </p>
+        <p className='news__source-text'>
+          {new Date(
+            data.publishedAt
+          ).toLocaleDateString() +
+            ' ' +
+            new Date(data.publishedAt)
+              .toTimeString()
+              .slice(0, 5)}
+        </p>
       </cite>
     </article>
   );
 }
-
-// export default function NewsCard({
-//   data,
-// }: Props) {
-//   return (
-//     <article className='news__article'>
-//       <cite className='news__source'>
-//         {data.source.name}
-//       </cite>
-//       <h3 className='news__title'>
-//         {data.title}
-//       </h3>
-//       {data.urlToImage && (
-//         <img
-//           className='news__img'
-//           src={data.urlToImage}
-//           alt='img'
-//         />
-//       )}
-
-//       <p className='news__description'>
-//         {data.description}
-//       </p>
-//     </article>
-//   );
-// }

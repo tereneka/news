@@ -12,17 +12,13 @@ export default function NewsList({
 }: Props) {
   return (
     <section className='news'>
-      {data && (
-        <ul className='news__list'>
-          {data.results.map((article) => (
-            <li
-              className='news__list-item'
-              key={nanoid()}>
-              <NewsCard data={article} />
-            </li>
-          ))}
-        </ul>
-      )}
+      {data &&
+        data.articles.map((article) => (
+          <NewsCard
+            data={article}
+            key={nanoid()}
+          />
+        ))}
     </section>
   );
 }

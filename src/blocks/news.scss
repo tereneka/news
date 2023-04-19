@@ -2,34 +2,44 @@
   background: $color-gradient;
   border-radius: $border-radius-l;
   padding: 20px;
-
-  &__list {
-    @include list;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 50%);
-  }
-
-  &__list-item {
-    margin-bottom: 20px;
-    &:last-of-type {
-      margin-bottom: 0;
-    }
-  }
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(400px, 1fr)
+  );
+  gap: 10px;
 
   &__article {
     background: $white-gradient;
     box-shadow: $color-shadow;
     border-radius: $border-radius-l;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  &__contant {
+    width: 100%;
+    height: 200px;
   }
 
   &__source {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   &__source-img {
     width: 20px;
     height: 20px;
     object-fit: contain;
+    border-radius: $border-radius-s;
+  }
+
+  &__source-text {
+    margin: 0;
   }
 
   &__title {
@@ -61,91 +71,8 @@
     margin: 0;
     color: $dark-color;
   }
+
+  @media screen and (max-width: $mobile-size) {
+    grid-template-columns: repeat(auto-fit, 100%);
+  }
 }
-// .news {
-//   background: $color-gradient;
-//   border-radius: $border-radius-l;
-//   padding: 20px;
-
-//   &__list {
-//     @include list;
-//   }
-
-//   &__list-item {
-//     margin-bottom: 20px;
-//     &:last-of-type {
-//       margin-bottom: 0;
-//     }
-//   }
-
-//   &__article {
-//     display: grid;
-//     grid-template-columns: repeat(6, 1fr);
-//     gap: 10px;
-//     background: $white-gradient;
-//     box-shadow: $color-shadow;
-//     border-radius: $border-radius-l;
-//     padding: 10px;
-//   }
-
-//   &__source {
-//     width: 60px;
-//     height: 60px;
-//     box-sizing: border-box;
-//     border-radius: $border-radius-xl;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     background: linear-gradient(
-//       135deg,
-//       $primary-dark-color 0%,
-//       $primary-color 100%
-//     );
-//     box-shadow: $color-shadow;
-//     color: $light-color;
-//     font: {
-//       style: normal;
-//       weight: 800;
-//       size: 8px;
-//     }
-//     line-height: 1.2;
-//     text-align: center;
-//     overflow: hidden;
-//   }
-
-//   &__title {
-//     grid-column-start: 2;
-//     grid-column-end: span 5;
-//     align-self: center;
-//     margin: 0;
-//     font: {
-//       style: normal;
-//       weight: 700;
-//       size: 16px;
-//     }
-//     line-height: 1.2;
-//     color: $dark-color;
-//   }
-
-//   &__img {
-//     grid-column-end: span 3;
-//     width: 100%;
-//     height: 200px;
-//     object-fit: cover;
-//     background: $disabled-color;
-//     border-radius: $border-radius-s;
-//   }
-
-//   &__description {
-//     grid-column-start: 4;
-//     grid-column-end: span 3;
-//     font: {
-//       style: normal;
-//       weight: 400;
-//       size: 16px;
-//     }
-//     line-height: 1.2;
-//     margin: 0;
-//     color: $dark-color;
-//   }
-// }
