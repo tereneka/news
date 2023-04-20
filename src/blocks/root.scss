@@ -3,7 +3,7 @@
   max-width: 1280px;
   background-color: $light-color;
   margin: auto;
-  padding: 40px 20px 60px;
+  padding: 0 $gap-m;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -12,10 +12,5 @@
 
   @media screen and (max-width: $laptop-size) {
     width: 100%;
-  }
-
-  @media screen and (max-width: $mobile-size) {
-    padding-top: 30px;
-    padding-bottom: 30px;
   }
 }

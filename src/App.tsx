@@ -155,7 +155,7 @@ function App() {
         <div className='header__logo-search-container'>
           <Logo />
 
-          <div className='search'>
+          <div className='search header__search'>
             <input
               className='search__input'
               value={keywords}

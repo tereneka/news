@@ -4,7 +4,7 @@
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 20px 0 10px;
+  padding: $gap-m 0 $gap-s;
 
   &__link {
     font: {

@@ -1,24 +1,24 @@
 .news {
   background: $color-gradient;
   border-radius: $border-radius-l;
-  padding: 20px;
+  padding: $gap-m;
   display: grid;
   grid-template-columns: repeat(
     auto-fit,
     minmax(400px, 1fr)
   );
-  gap: 10px;
+  gap: $gap-s;
   margin-top: 100px;
 
   &__article {
     background: $white-gradient;
     box-shadow: $color-shadow;
     border-radius: $border-radius-l;
-    padding: 10px;
+    padding: $gap-s;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 10px;
+    gap: $gap-s;
   }
 
   &__contant {
@@ -29,7 +29,7 @@
   &__source {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: $gap-s;
   }
 
   &__source-img {

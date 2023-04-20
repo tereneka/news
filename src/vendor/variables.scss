@@ -22,23 +22,27 @@ $white-gradient: linear-gradient(
 $color-shadow: 10px 10px 40px
   rgba(156, 185, 222, 0.4);
 
-$border-radius-xl: 50%;
-$border-radius-l: 10px;
-$border-radius-m: 4px;
 $border-radius-s: 2px;
+$border-radius-m: 4px;
+$border-radius-l: 10px;
+$border-radius-xl: 50%;
 
 $transition-duration: 0.3s;
+
+$gap-s: 10px;
+$gap-m: 20px;
+$gap-l: 40px;
+
+$laptop-size: 1130px;
+$tablet-size: 900px;
+$mobile-size: 600px;
+$mini-mobile-size: 468px;
 //
 $dark-transparent-color: rgba(0, 0, 0, 0.5);
 $shadow-color: rgba(0, 0, 0, 0.2);
 
 $medium-color: rgba(84, 84, 84);
 $error: rgb(255, 0, 0);
-
-$laptop-size: 1130px;
-$tablet-size: 900px;
-$mobile-size: 600px;
-$mini-mobile-size: 468px;
 
 $side-padding: 19px;
 
