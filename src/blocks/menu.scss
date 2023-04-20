@@ -4,4 +4,27 @@
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  padding: 20px 0 10px;
+
+  &__link {
+    font: {
+      weight: 700;
+      size: 14px;
+    }
+    text: {
+      decoration: none;
+      transform: uppercase;
+    }
+    color: $dark-color;
+    transition: all $transition-duration;
+
+    &:hover {
+      color: $error-color;
+    }
+
+    &_active {
+      color: $primary-color;
+      font-weight: 900;
+    }
+  }
 }

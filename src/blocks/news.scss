@@ -8,6 +8,7 @@
     minmax(400px, 1fr)
   );
   gap: 10px;
+  margin-top: 100px;
 
   &__article {
     background: $white-gradient;
@@ -47,7 +48,7 @@
     font: {
       style: normal;
       weight: 700;
-      size: 16px;
+      size: 20px;
     }
     line-height: 1.2;
     color: $dark-color;

@@ -4,6 +4,7 @@ $dark-color: rgb(42, 42, 42);
 $light-color: rgb(255, 255, 255);
 $primary-color: rgba(0, 133, 255, 1);
 $primary-dark-color: rgba(82, 65, 191, 1);
+$error-color: rgb(225, 7, 7);
 $disabled-color: rgb(204, 212, 219);
 
 $color-gradient: linear-gradient(
@@ -25,6 +26,8 @@ $border-radius-xl: 50%;
 $border-radius-l: 10px;
 $border-radius-m: 4px;
 $border-radius-s: 2px;
+
+$transition-duration: 0.3s;
 //
 $dark-transparent-color: rgba(0, 0, 0, 0.5);
 $shadow-color: rgba(0, 0, 0, 0.2);
@@ -41,5 +44,4 @@ $side-padding: 19px;
 
 $btn-light-border: 2px solid $light-color;
 
-$transition-duration: 0.3s;
 $hover-opacity: 0.6;
