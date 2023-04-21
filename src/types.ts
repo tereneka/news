@@ -26,18 +26,4 @@ interface NewsReqParams {
   q?: string;
 }
 
-type NewsCategoty =
-  | 'business'
-  | 'entertainment'
-  | 'general'
-  | 'health'
-  | 'science'
-  | 'sports'
-  | 'technology';
-
-export type {
-  Article,
-  NewsData,
-  NewsReqParams,
-  NewsCategoty,
-};
+export type { Article, NewsData, NewsReqParams };

@@ -33,7 +33,6 @@ function App() {
     isError,
     error,
   } = useGetNewsQuery(newsState.reqParams);
-  console.log(news);
 
   const shouldNewsLoad = !!(
     !isLoading &&
@@ -56,14 +55,18 @@ function App() {
   }, [newsState.nextPage]);
 
   useEffect(() => {
+    const defaultReqParams = {
+      endPoint: endpoints.top,
+      page: 1,
+      country: 'us',
+      q: undefined,
+    };
+
     if (location.pathname === '/') {
       dispatch(
         setNewsReqParams({
-          endPoint: endpoints.top,
-          page: 1,
+          ...defaultReqParams,
           category: 'general',
-          country: 'us',
-          q: undefined,
         })
       );
     } else if (
@@ -71,12 +74,9 @@ function App() {
     ) {
       dispatch(
         setNewsReqParams({
-          endPoint: endpoints.top,
-          page: 1,
+          ...defaultReqParams,
           category:
             location.pathname.split('/')[2],
-          country: 'us',
-          q: undefined,
         })
       );
     } else if (

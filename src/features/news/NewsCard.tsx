@@ -14,13 +14,27 @@ export default function NewsCard({
   const [isSourceImg, setIsSourceImg] =
     useState(true);
 
+  const sourceImgUrl = `${
+    data.url?.slice(0, 8) +
+    data.url?.slice(8).split('/')[0]
+  }/favicon.ico`;
+
+  const articleDate =
+    new Date(
+      data.publishedAt
+    ).toLocaleDateString() +
+    ' ' +
+    new Date(data.publishedAt)
+      .toTimeString()
+      .slice(0, 5);
+
   return (
     <article className='news__article'>
       <h3 className='news__title'>
         {data.title}
       </h3>
 
-      <div className='news__contant'>
+      <div className='news__content'>
         {data.urlToImage && isImg ? (
           <img
             className='news__img'
@@ -39,11 +53,7 @@ export default function NewsCard({
         {isSourceImg && (
           <img
             className='news__source-img'
-            src={
-              `${data.url?.slice(0, 8)}${
-                data.url?.slice(8).split('/')[0]
-              }/favicon.ico` || ''
-            }
+            src={sourceImgUrl}
             onError={() => setIsSourceImg(false)}
             alt=''
           />
@@ -52,14 +62,9 @@ export default function NewsCard({
         <p className='news__source-text'>
           {data.source.name}
         </p>
+
         <p className='news__source-text'>
-          {new Date(
-            data.publishedAt
-          ).toLocaleDateString() +
-            ' ' +
-            new Date(data.publishedAt)
-              .toTimeString()
-              .slice(0, 5)}
+          {articleDate}
         </p>
       </cite>
     </article>
