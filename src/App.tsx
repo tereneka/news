@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import NewsList from './features/news/NewsList';
 import { useGetNewsQuery } from './api/newsApi';
-import { useLocation } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import {
   throttle,
   checkPosition,
@@ -19,6 +22,8 @@ import Header from './features/header/Header';
 
 function App() {
   const location = useLocation();
+
+  const navigate = useNavigate();
 
   const newsState = useAppSelector(
     (state) => state.news
@@ -40,6 +45,10 @@ function App() {
     newsState.reqParams.page <
       Math.ceil(news?.totalResults / 10)
   );
+
+  useEffect(() => {
+    navigate('/');
+  }, []);
 
   useEffect(() => {
     if (

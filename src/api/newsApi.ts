@@ -3,7 +3,6 @@ import {
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
 import {
-  NewsCategoty,
   NewsData,
   NewsReqParams,
 } from '../types';
