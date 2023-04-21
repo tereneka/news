@@ -2,7 +2,11 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
-import { NewsCategoty, NewsData } from '../types';
+import {
+  NewsCategoty,
+  NewsData,
+  NewsReqParams,
+} from '../types';
 
 const BASE_URL = 'https://newsapi.org/v2/';
 const API_KEY =
@@ -16,13 +20,7 @@ export const newsApi = createApi({
   endpoints: (builder) => ({
     getNews: builder.query<
       NewsData,
-      {
-        endPoint: string;
-        category?: string;
-        page?: number;
-        country?: string;
-        q?: string;
-      }
+      NewsReqParams
     >({
       query: ({
         endPoint,

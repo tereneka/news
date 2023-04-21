@@ -8,9 +8,7 @@ import {
   useSelector,
 } from 'react-redux';
 import { newsApi } from './api/newsApi';
-// import { api } from './services/api';
-// import polling from '../features/polling/pollingSlice';
-// import auth from '../features/auth/authSlice';
+import news from './features/news/NewsSlice';
 
 export const createStore = (
   options?:
@@ -20,8 +18,7 @@ export const createStore = (
   configureStore({
     reducer: {
       [newsApi.reducerPath]: newsApi.reducer,
-      // polling,
-      // auth,
+      news,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(
@@ -35,6 +32,8 @@ export const store = createStore();
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch =
   useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> =
+  useSelector;
 export type RootState = ReturnType<
   typeof store.getState
 >;

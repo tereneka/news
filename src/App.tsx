@@ -10,37 +10,41 @@ import { useGetNewsQuery } from './api/newsApi';
 import {
   NavLink,
   useLocation,
+  useNavigate,
 } from 'react-router-dom';
 import {
   throttle,
   checkPosition,
 } from './utils.ts/scroll';
-import { NewsCategoty } from './types';
-import { keyboard } from '@testing-library/user-event/dist/keyboard';
+import {
+  NewsCategoty,
+  NewsReqParams,
+} from './types';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from './store';
+import {
+  setNewsKeywords,
+  setNewsNextPage,
+  setNewsReqParams,
+} from './features/news/NewsSlice';
 
 function App() {
   const location = useLocation();
 
-  const pathname = location.pathname.slice(1);
+  const navigate = useNavigate();
 
-  const defaultReqParams = {
-    endPoint: 'top-headlines',
-    page: 1,
-    category: pathname || 'general',
-    country: 'us',
+  const endpoints = {
+    top: 'top-headlines',
+    everything: 'everything',
   };
 
-  const [reqParams, setReqParams] = useState<{
-    endPoint: string;
-    category?: string;
-    page: number;
-    country?: string;
-    q?: string;
-  }>(defaultReqParams);
+  const newsState = useAppSelector(
+    (state) => state.news
+  );
 
-  const [nextPage, setNextPage] = useState(1);
-
-  const [keywords, setKeywords] = useState('');
+  const dispatch = useAppDispatch();
 
   const {
     data: news,
@@ -48,13 +52,13 @@ function App() {
     isSuccess,
     isError,
     error,
-  } = useGetNewsQuery(reqParams);
-  console.log(news, keywords);
+  } = useGetNewsQuery(newsState.reqParams);
+  console.log(news);
 
   const shouldNewsLoad = !!(
     !isLoading &&
     news &&
-    reqParams.page <
+    newsState.reqParams.page <
       Math.ceil(news?.totalResults / 10)
   );
 
@@ -64,73 +68,107 @@ function App() {
       linkText: 'главные',
     },
     {
-      path: '/business',
+      path: '/' + endpoints.top + '/business',
       linkText: 'бизнесс',
     },
     {
-      path: '/sports',
+      path: '/' + endpoints.top + '/sports',
       linkText: 'спорт',
     },
     {
-      path: '/technology',
+      path: '/' + endpoints.top + '/technology',
       linkText: 'технологии',
     },
     {
-      path: '/health',
+      path: '/' + endpoints.top + '/health',
       linkText: 'здоровье',
     },
     {
-      path: '/science',
+      path: '/' + endpoints.top + '/science',
       linkText: 'наука',
     },
     {
-      path: '/entertainment',
+      path:
+        '/' + endpoints.top + '/entertainment',
       linkText: 'развлечения',
     },
   ];
 
   function searchKeywords() {
-    if (keywords) {
-      setReqParams({
-        endPoint: 'everything',
-        page: 1,
-        q: keywords.trim().replaceAll(' ', '+'),
-        category: undefined,
-        country: undefined,
-      });
+    if (newsState.keywords) {
+      navigate('/everything');
     }
   }
 
   useEffect(() => {
-    if (nextPage === reqParams.page + 1) {
-      setReqParams({
-        ...reqParams,
-        page: nextPage,
-      });
+    if (
+      newsState.nextPage ===
+      newsState.reqParams.page + 1
+    ) {
+      dispatch(
+        setNewsReqParams({
+          page: newsState.nextPage,
+        })
+      );
     }
-  }, [nextPage]);
+  }, [newsState.nextPage]);
 
   useEffect(() => {
-    setReqParams({
-      ...reqParams,
-      category: pathname || 'general',
-      page: 1,
-    });
-    setNextPage(1);
+    if (location.pathname === '/') {
+      dispatch(
+        setNewsReqParams({
+          endPoint: endpoints.top,
+          page: 1,
+          category: 'general',
+          country: 'us',
+          q: undefined,
+        })
+      );
+    } else if (
+      location.pathname.includes(endpoints.top)
+    ) {
+      dispatch(
+        setNewsReqParams({
+          endPoint: endpoints.top,
+          page: 1,
+          category:
+            location.pathname.split('/')[2],
+          country: 'us',
+          q: undefined,
+        })
+      );
+    } else if (
+      location.pathname.includes(
+        endpoints.everything
+      )
+    ) {
+      dispatch(
+        setNewsReqParams({
+          endPoint: 'everything',
+          page: 1,
+          q: newsState.keywords
+            .trim()
+            .replaceAll(' ', '+'),
+          category: undefined,
+          country: undefined,
+        })
+      );
+    }
+
+    dispatch(setNewsNextPage(1));
   }, [location]);
-
-  useEffect(() => {
-    if (!keywords) {
-      setReqParams(defaultReqParams);
-    }
-  }, [keywords]);
 
   window.addEventListener(
     'scroll',
     throttle(
       () =>
         checkPosition(
-          () => setNextPage(reqParams.page + 1),
+          () =>
+            dispatch(
+              setNewsNextPage(
+                newsState.reqParams.page + 1
+              )
+            ),
           shouldNewsLoad
         ),
       250
@@ -142,7 +180,12 @@ function App() {
     throttle(
       () =>
         checkPosition(
-          () => setNextPage(reqParams.page + 1),
+          () =>
+            dispatch(
+              setNewsNextPage(
+                newsState.reqParams.page + 1
+              )
+            ),
           shouldNewsLoad
         ),
       250
@@ -158,16 +201,20 @@ function App() {
           <div className='search header__search'>
             <input
               className='search__input'
-              value={keywords}
+              value={newsState.keywords}
               onChange={(e) =>
-                setKeywords(e.target.value)
+                dispatch(
+                  setNewsKeywords(e.target.value)
+                )
               }
               type='text'
             />
 
             <button
               className='btn btn_icon_x-circle btn_size_s search__x-btn'
-              onClick={() => setKeywords('')}
+              onClick={() => {
+                dispatch(setNewsKeywords(''));
+              }}
             />
 
             <button

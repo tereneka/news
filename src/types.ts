@@ -18,6 +18,14 @@ interface NewsData {
   articles: Article[];
 }
 
+interface NewsReqParams {
+  endPoint: string;
+  page: number;
+  category?: string;
+  country?: string;
+  q?: string;
+}
+
 type NewsCategoty =
   | 'business'
   | 'entertainment'
@@ -27,4 +35,9 @@ type NewsCategoty =
   | 'sports'
   | 'technology';
 
-export type { Article, NewsData, NewsCategoty };
+export type {
+  Article,
+  NewsData,
+  NewsReqParams,
+  NewsCategoty,
+};
