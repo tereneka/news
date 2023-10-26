@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Article } from '../../types';
 import { Link } from 'react-router-dom';
 
-interface Props {
-  data: Article;
-}
+// interface Props {
+//   data: Article;
+// }
 
 export default function NewsCard({
   data,

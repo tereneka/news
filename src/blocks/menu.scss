@@ -25,6 +25,10 @@
     &_active {
       color: $primary-color;
       font-weight: 900;
+
+      &:hover {
+        color: $primary-color;
+      }
     }
   }
 }
